@@ -280,7 +280,8 @@ def perform_illegal_access_detection(room_no,sensor_type):
         update_status(lcl_room_to_precool,"Access","Breached")
         final_action_to_do = "Breached"
     else:
-        final_action_to_do = "--Not Assigned"
+        update_status(lcl_room_to_precool,"Access","Safe")
+        final_action_to_do = "Safe"
 
     print(final_action_to_do)
 

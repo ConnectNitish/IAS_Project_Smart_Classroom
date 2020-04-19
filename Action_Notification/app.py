@@ -4,6 +4,7 @@ from flask_bootstrap import Bootstrap
 import requests
 import sys
 import json
+import time
 
 from Email import *
 
@@ -34,19 +35,25 @@ def save_data(device_file_name,data):
     with open(device_file_name, 'w') as fp:
         json.dump(data, fp, indent=4, sort_keys=True)
 
+@app.route('/start_device_1/<location>/<device>/<status>')
+def change_status_of_device_1(location,device,status):
+    pass
+
 @app.route('/start_device/<location>/<device>/<status>')
 def change_status_of_device(location,device,status):
+    lcl_get_device_info_for_room = get_device_info_for_room(device_data_file)
+    lcl_get_device_info_for_room[location][device]["status"] = status
+    lcl_get_device_info_for_room[location][device]["last-modified"] = time.strftime('%H:%M:%S')
 
-	lcl_get_device_info_for_room = get_device_info_for_room(device_data_file)
+    print(lcl_get_device_info_for_room)
 
-	if __debug__:
-		print(lcl_get_device_info_for_room)
+	# if __debug__:
+	# 	print(lcl_get_device_info_for_room)
 
-	lcl_get_device_info_for_room[location][device]["status"] = status
+	# lcl_get_device_info_for_room[location][device]["status"] = status
 
-	save_data(device_data_file,lcl_get_device_info_for_room)
-
-	return "Success"
+    save_data(device_data_file,lcl_get_device_info_for_room)
+    return "Success"
 
 repository_URL = "http://"+sys.argv[1]
 

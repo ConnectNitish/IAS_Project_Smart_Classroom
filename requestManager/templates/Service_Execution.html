@@ -55,39 +55,57 @@
     <div class="col-sm-7">
       <!-- <h4><small>Deploy Platform Service</small></h4> -->
       <!-- <hr> -->
-      <h4>Live Server Details</h4>
+      <h4>Execute Algorithms</h4>
       <hr>
-        <!-- <form action="/Start_Deployment" method="post"> -->
+        <form action="/Service_Execution_Interface" method="post">
           
         <div class="col-sm-5">
 
-          <table class="table table-dark">
+          <label class="mdb-main-label">Algorithm</label>
+          <select name="algorithm_details" id="select_customer" class="selectpicker form-control">
+              <option value="" disabled selected>Choose Algorithm</option>
+              {% for item in data["Algorithm_Details"] %}
+                <option value="{{ item[1] }}">{{ item[0] }}</option>
+              {% endfor %}
+          </select>
+          <br /> <br />
+          <label class="mdb-main-label">Location</label>
+          <select name="Room_Location" id="select_customer" class="selectpicker form-control">
+              <option value="" disabled selected>Choose Location</option>
+              {% for item in data["RoomDetails"] %}
+                <option value="{{ item }}">{{ item }}</option>
+              {% endfor %}
+          </select>
+
+          <br /> <br />
+          <button class="btn-save btn btn-primary btn-sm"> Execute </button>
+
+
+        </div>
+
+      </form>
+
+          <!-- <table class="table table-dark">
             <thead>
               <tr >
-                <th scope="col" > Service Id </th>
-                <th scope="col" > Service Name </th>
-                <th scope="col"> Service IP </th>
-                <th scope="col"> Service Port </th>
-                <th scope="col"> Machine IP </th>
-                <th scope="col"> Machine Port </th>
+                <th scope="col" > Room Name </th>
+                <th scope="col" > Type </th>
+                <th scope="col"> Value </th>
+                <th scope="col"> Last Modified </th>
               </tr>
             </thead>
             <tbody>
-            {% for item, val in data.items() %}
+            {% for item in data["RoomDetails"] %}
             <tr>
-                  <th scope="row"><label> {{ val['uid'] }} </label></th>
-                  <th scope="row"><label> {{ val['module_name'] }} </label></th>
-                  <th scope="row"><label> {{ val['service_ip'] }} </label></th>
-                  <th scope="row"><label> {{ val['service_port'] }} </label></th>
-                  <th scope="row"><label> {{ val['machine_ip'] }} </label></th>
-                  <th scope="row"><label> {{ val['machine_port'] }} </label></th>
+                  <th scope="row"><label> {{ item[0] }} </label></th>
+                  <th scope="row"><label> {{ item[1] }} </label></th>
+                  <th scope="row"><label> {{ item[2] }} </label></th>
+                  <th scope="row"><label> {{ item[3] }} </label></th>
             </tr>
             {% endfor %}
             </tbody>
           
-        </table>
-
-        </div>
+        </table> -->
     </div>
   </div>
   </div>

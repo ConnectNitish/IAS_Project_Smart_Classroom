@@ -152,6 +152,10 @@ def invoke_scheduler():
 
 
 device_file_name = os.getcwd() + "/Location_Device_Information.json"
+use_case_mapping = os.getcwd() + "/Use_Case_Mapping.json"
+scheduler_template_file = os.getcwd() + "/Algorithm.scheduler_config.json"
+
+repository_folder_location = os.getcwd() + "/Repository/Scheduler_Config_file"
 
 def get_device_info_for_room(device_file_name):
     with open(device_file_name, 'r') as fp:
@@ -172,8 +176,158 @@ def get_class_room_information():
         print( " Room Data ")
         print(lcl_entire_data)
 
-    return render_template("Class_Room_Information.html")
+    response  = {}
 
+    lst_response = []
+
+    for key,value in lcl_entire_data.items():
+
+        for key_1,value_1 in lcl_entire_data[key].items():
+
+            if key_1 in "Temperature" or key_1 in "Access":
+
+                print("------------------")
+                print(key,key_1,value_1['status'])
+
+                if __debug__:
+                #     print(" Nested Room Item ")
+                #     print(lcl_entire_data[key][key_1])
+                #     print(lcl_entire_data[key][key_1].keys())
+                #     print(lcl_entire_data[key][key_1]['status'])
+                    print(type(lcl_entire_data[key][key_1]['status']))
+
+                # lcl_temp_dict = eval(lcl_entire_data[key][key_1])
+
+                # if __debug__:
+                #     print(" Nested Room Item Processing Into Dict ")
+                #     print(lcl_temp_dict)
+                #     print(type(lcl_temp_dict))
+
+                temp_list = []
+                temp_list.append(str(key))
+                temp_list.append(str(key_1))
+                temp_list.append(lcl_entire_data[key][key_1]['status'])
+                temp_list.append(lcl_entire_data[key][key_1]['last-modified'])
+
+                if len(temp_list)>0:
+                    lst_response.append(temp_list)
+
+    response["RoomDetails"] = lst_response
+
+    if __debug__:
+        print(" Final Room Details response to UI ")
+        print(response)            
+
+    return render_template("Class_Room_Information.html",data=response)
+
+@app.route('/Service_Execution',methods=['GET','POST'])
+def get_use_case_entry_point():
+    if __debug__:
+        print(" Location File Information ")
+        print(device_file_name)
+
+    lcl_entire_data = get_device_info_for_room(device_file_name)
+    lcl_use_case_mapping = get_device_info_for_room(use_case_mapping)
+
+    if __debug__:
+        print( " Room Data ")
+        print(lcl_entire_data)
+
+    response  = {}
+    response["Algorithm_Details"] = lcl_use_case_mapping.items()
+    response["RoomDetails"] = lcl_entire_data.keys()
+
+    if __debug__:
+        print(" Entire Details ")
+        print(response)
+
+    return render_template('Service_Execution.html',data=response)
+
+
+def save_data(device_file_name,data):
+    with open(device_file_name, 'w') as fp:
+        json.dump(data, fp, indent=4, sort_keys=True)
+
+@app.route('/Service_Execution_Interface',methods=['GET','POST'])
+def execute_use_case():
+    
+    lcl_algo_key = "algorithm_details"
+    lcl_algo_name = "algorithm_details"
+    lcl_location_key = "Room_Location"
+    lcl_location_name = ""
+
+    lcl_algo_key_value = request.form.get(lcl_algo_key)
+    lcl_location_key_value = request.form.get(lcl_location_key)
+
+    if __debug__:
+        print(" Output from User Interface ")
+        print(lcl_algo_key_value)
+        print(lcl_location_key_value)
+
+    if lcl_location_key_value==None or lcl_algo_key_value==None:
+        return get_use_case_entry_point()
+
+    '''
+        Pick the Template from the Algorithms 
+        update as per need and save 
+
+    '''
+    lcl_template_for_scheuduler = get_device_info_for_room(scheduler_template_file)
+
+    lcl_string_value_param = None
+    lcl_string_value_file_name = None
+
+    if lcl_algo_key_value == "Automated_AC_Service":
+        lcl_string_value_param = lcl_location_key_value + " " + "temperature"
+        lcl_string_value_file_name = "Automated_AC_Service.py"
+    elif lcl_algo_key_value == "Illegal_Access_Detection":
+        lcl_string_value_param = lcl_location_key_value + " " + "binary_door_step"
+        lcl_string_value_file_name = "Illegal_Access_Detection.py"
+    else:
+        return render_template('Service_Execution.html')
+
+    if __debug__:
+        print(lcl_template_for_scheuduler["function"])
+          
+    lcl_template_for_scheuduler["function"][0]["file_name"] = lcl_string_value_file_name
+    lcl_template_for_scheuduler["function"][0]["parameters"] = lcl_string_value_param
+
+    if __debug__:
+        print(lcl_template_for_scheuduler)
+
+    lcl_new_file_name = lcl_algo_key_value+".scheduler_config.json"
+
+    lcl_saving_location = repository_folder_location + "/" + lcl_new_file_name
+    
+    if __debug__:
+        print(" File Path Location ")
+        print(lcl_saving_location)
+
+    ''''''
+    save_data(lcl_saving_location,lcl_template_for_scheuduler)
+    time.sleep(5)
+
+    # Call to Scheduler For Invocation 
+    lcl_scheduler_service_ip_port = get_ip_port("Scheduling_Service")
+
+    if __debug__:
+        print(" lcl_scheduler_service_ip_port ")
+        print(lcl_scheduler_service_ip_port,"")
+
+    datatosend = {}
+    datatosend['appName'] = lcl_algo_key_value
+
+    lcl_scheduler_service_ip_port = get_ip_port("Scheduling_Service")
+    url_schedule_service = "http://"+lcl_scheduler_service_ip_port+"/ScheduleService"
+
+    if __debug__:
+        print(" Final Scheduler Service URL  ",url_schedule_service,"")
+
+    r=requests.post(url=url_schedule_service,json=datatosend)
+    print(" response from Scheduler ",r," ")
+    
+
+    return render_template('Scheduler_Invocation_Success.html')
 
 def get_ip_port(module_name):
     custom_URL = repository_URL+"/get_running_ip/"+module_name

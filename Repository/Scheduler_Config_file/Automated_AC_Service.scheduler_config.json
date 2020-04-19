@@ -1,44 +1,57 @@
-{"function": [
-    {
-    "file_name": "Automated_AC_Service.py",
-    "parameters":"Room1 temperature",
-    "sched_in_future" : "0",
-    "start_date": "5",
-    "start_month": "3", 
-    "start_year": "2020", 
-    "sched_day": ["THU"],
-    
-    "sched_only_between" : "0",
-    "start_hour": "15", 
-    "start_min": "42", 
-    "start_sec": "00",
-    "end_hour": "15", 
-    "end_min": "44", 
-    "end_sec": "10",
-    "days":["Monday","Tuesday","Wednesday","Thursday","Friday"],
-    
-    "sched_once_at_time_flag" : "0",
-    "sched_at":{
-        "hour":"19",
-        "minute":"05",
-        "second":"5"
-    } ,
-
-    "sched_at_intervals_flag" : "1",
-    "interval_hours": "0",
-    "interval_minutes": "0", 
-    "interval_seconds": "10",
-    "idays":["Monday","Tuesday","Wednesday","Thursday","Friday","Sunday"],
-    "istart_hour": "3", 
-    "istart_min": "42", 
-    "istart_sec": "00",
-    "iend_hour": "05", 
-    "iend_min": "33", 
-    "iend_sec": "00",
-
-    "logging": "on",
-    "retry": "on",
-    "Maximum_number_of_retries": "5", 
-    "Backoff_scheme": "default"}
+{
+    "function": [
+        {
+            "Backoff_scheme": "default",
+            "Maximum_number_of_retries": "5",
+            "days": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday"
+            ],
+            "end_hour": "15",
+            "end_min": "44",
+            "end_sec": "10",
+            "file_name": "Automated_AC_Service.py",
+            "idays": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Sunday"
+            ],
+            "iend_hour": "05",
+            "iend_min": "33",
+            "iend_sec": "00",
+            "interval_hours": "0",
+            "interval_minutes": "0",
+            "interval_seconds": "10",
+            "istart_hour": "3",
+            "istart_min": "42",
+            "istart_sec": "00",
+            "logging": "on",
+            "parameters": "Room2 temperature",
+            "retry": "on",
+            "sched_at": {
+                "hour": "19",
+                "minute": "05",
+                "second": "5"
+            },
+            "sched_at_intervals_flag": "1",
+            "sched_day": [
+                "THU"
+            ],
+            "sched_in_future": "0",
+            "sched_once_at_time_flag": "0",
+            "sched_only_between": "0",
+            "start_date": "5",
+            "start_hour": "15",
+            "start_min": "42",
+            "start_month": "3",
+            "start_sec": "00",
+            "start_year": "2020"
+        }
     ]
 }

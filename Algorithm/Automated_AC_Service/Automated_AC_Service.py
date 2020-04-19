@@ -217,16 +217,16 @@ def perform_automate_AC_service(room_no,sensor_type):
     final_action_to_do = None
 
     if avearge_temperature>=0 and avearge_temperature<=59:
-        update_status(lcl_room_to_precool,"AC","LOW_TEMP"+str(avearge_temperature))
+        update_status(lcl_room_to_precool,"Temperature","LOW_TEMP"+str(avearge_temperature))
         final_action_to_do = "LOW_TEMP"+str(avearge_temperature)
     elif avearge_temperature>=60 and avearge_temperature<=100:
-        update_status(lcl_room_to_precool,"AC","NORMAL_TEMP"+str(avearge_temperature))
+        update_status(lcl_room_to_precool,"Temperature","NORMAL_TEMP"+str(avearge_temperature))
         final_action_to_do = "NORMAL_TEMP"+str(avearge_temperature)
     elif avearge_temperature>=101 and avearge_temperature<=120:
-        update_status(lcl_room_to_precool,"AC","HIGH_TEMP"+str(avearge_temperature))
+        update_status(lcl_room_to_precool,"Temperature","HIGH_TEMP"+str(avearge_temperature))
         final_action_to_do = "HIGH_TEMP"+str(avearge_temperature)
     else:
-        update_status(lcl_room_to_precool,"AC","EXTREME_HIGH_TEMP"+str(avearge_temperature))
+        update_status(lcl_room_to_precool,"Temperature","EXTREME_HIGH_TEMP"+str(avearge_temperature))
         final_action_to_do = "EXTREME_HIGH_TEMP"+str(avearge_temperature)
 
     print(final_action_to_do)
