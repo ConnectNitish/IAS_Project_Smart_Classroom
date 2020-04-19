@@ -1,0 +1,138 @@
+artifacts
+	service
+	configuration
+	UI
+	
+Services
+	Deployer
+	Logging Module
+	Request Manager
+	Runtime Manager
+
+Integration
+	Load Balancer
+	Repository Manager
+	Scheduler
+	Action and Notification Manager
+	
+Information Model
+
+	Runtime/module_name_id_map.json
+	Repository/initiate_server.json
+	DockerFiles (for each module)
+		base_docker
+		deployer_docker
+		scheduler_docker
+		action_notification_docker
+	LoggingModule (for each module)
+		Logging.log
+		Request_Manager.log
+	Loadbalancer
+		services.json
+		servers.json
+
+Application Model				
+	  
+	Logging Module:
+	  	Consume_Log_For_Topic()
+
+	Request Manager:
+		UI:
+			index.html
+			Deployment_Interface.html
+			Service_Instances.html
+			
+		Event Handlers:
+			add_deployment_details()	  
+	  		getServiceInstancesDetails()
+	  		Deployment_Interface()
+	  		
+	  Repository Manager:
+	  	Shared Folder:
+	  		/Downloads
+	  	Event Handlers
+	  		get_running_ip(module_name)
+	  		download(filename)
+	  
+	  Runtime Module:
+	  	Event Handlers:		
+		  	start_module(module_name)
+		  	stop_module(module_name)	
+	  		
+	  Deployer Module:
+	  	Event Handlers:
+	  		start_service(ip,port,module_name)
+	  		
+	  Logging Helper (used across modules for logging) 
+	  	kafka_helper.py
+	  		produce_topic()
+	  		consume_topic()
+	  		
+Communication Model:
+	
+	Logging Module:
+		Kafka topic name as per each module	
+			Ex: "Logging","Request_Manager"
+			
+	Request Manager:	
+	  	Logging: via kafka topics
+	  	Using REST api for below modules:
+	  		LoadBalancer
+	  		Deployer
+	  		Repository
+	 
+	 Deployer Manager:	
+	  	Logging: via kafka topics
+	  	Using REST api for below modules:
+	  		Runtime
+	  		LoadBalancer
+	  		Repository
+	  		
+	Runtime Manager:	
+	  	Logging: via kafka topics
+	  	Using REST api for below modules:	
+	  		Deployer
+	  		Repository
+	  		
+	Repository Manager:	
+	  	Logging: via kafka topics
+	  	Using REST api for below modules:
+	  		Runtime
+	  		LoadBalancer
+	  		Deployer
+	  		Repository
+
+Steps:
+	1. Explain the objective
+	2. Explain folder structure
+	3. Technologies (Kafka, Flask, Docker, Logzero, REST API) and its usage
+	4. Workflow 
+		UI 
+		Module explanation
+	5. Runnig Demo 
+		Check points:
+			1. start bootstrap.py
+			2. Open Request Manager UI
+			3. Create request for a module (currently schuduler or actnotif)
+			4. Show terminal for internal processing of docker
+			5. Open currently running services
+			6. Ping a service running in docker using particular ip and port
+			7. Various json files
+			8. Show log files and log analysis
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  

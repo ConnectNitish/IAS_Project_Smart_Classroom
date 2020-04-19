@@ -1,0 +1,148 @@
+docker run // run a particular container from an image
+docker ps // shows all running containers
+docker ps -a // shows all containers 
+docker stop // to stop a container
+docker rm // permanently remove a container
+docker images // to get list of all images in the system
+docker rmi <image name> // to remove a image
+docker pull // to only download image and not run the container
+docker run ubuntu --> exits immediately as no process is running in os image, its only used as a base image
+docker run ubuntu sleep 5 // runs sleep command, does not exits immediately
+docker exec <container name> cat hello.txt
+docker run -d // runs container in detach mode 
+docker attach <container_id> // attaches the container to console
+docker run <image name>:<tag> // docker run redis:5.0
+docker run -i <image name> // interactive mode 
+docker run -it <image name> // interactive mode and as well as attached to the docker terminal 
+docker run -p <docker host port number>:<docker container port number> <image name> // port forwarding/mapping 
+docker run -v <docker host file path>:<docker container file path> <image name> // volume mapping all files will be in sync
+docker inspect <image name> // to find details of a container
+docker logs <image name> // to get all the outputs of the docker containers terminal
+docker run -e <ENV varibale name>=<value> <image name>
+docker run --entrypoint <new entry cmd> <image name> <params>
+docker run <image name> --network=none // container works in an isolated environment
+docker run <image name> --network=host // it will automaticaly map a port of host
+docker network ls // to list all the docker network
+docker network create --driver bridge --subnet 182.2.2.0/16 <network name> // to create subnets for different conatiners to communicate with each other
+
+
+default docker DNS ip 127.0.0.11 
+default containers network ip 172.17.0.0
+docker build <docker file> -t <image name> // -t tag name
+docker push <image name> // to make the image publicly available at docker hub 
+
+docker history <image name> // to get all the layers of execution of the image 
+
+Container only lives as long as the process inside is active. It shutsdown when there is no process running.
+By default docker container is not attacched to any input although its is attached to your terminal, it runs in a non interactive mode.
+
+All the layers build by the docker is cached so if one particular layer fails build will resume from that points only. Also helpful when adding new layer as it is fast. 
+
+Creating docker image
+
+<instruction> <argument>
+
+From Ubuntu
+
+Run apt-get update
+RUN apt-get install python
+
+RUN pip install flask
+RUN pip install flask-mysql
+
+COPY . /opt/source-code // copy source code to /opt/source-code folder in docker container
+
+ENTRYPOINT python app.py // the first process to be executed
+
+/////////////////////
+
+FROM ubuntu
+CMD ["sleep", "5"]  // CMD ["sleep","5] CMD command param
+docker run ubuntu 10 // sleep 5 gets completely replaced
+
+FROM ubuntu
+ENTRYPOINT ["sleep"]
+docker run ubuntu 10 // 10 get appended to the list
+
+FROM ubuntu
+ENTRYPOINT ["sleep"]
+CMD ["5"]
+docker run ubuntu // sleep 5 works as default if time is not explicitly mentioned in the docker command
+
+
+We can mount folder within the containers itself
+docker volume create data_volume // creates a new volume inside the container itself
+docker run -v data_volume:/var/lib/mysql mysql // mounts the default location of mysql storage to data_volume which is outside mysql container; when mysql container terminates data will be persisted at /var/lib/docker/volumes/data_volume. If data_volume is not already created then docker will create it. This type of mounting is call volume mount. If we mount docker internal folder to some other external host folder its call bind mount
+
+docker run --mount type=bind,source=<host folder location>,target=<docker internal folder location> <image name>  
+
+Storage drivers are responsible for maintaining this layered architecture. Ex: AUFS, BTRFS, Overlay, Overlay2, ZFS, etc.
+
+Docker Compose:
+docker-compose.yaml
+services:	
+	web:
+		image:<>
+	database:
+		image:<>
+		
+docker-compose up // to start the entire system		
+
+
+sudo docker run -p 9090:9090 -e "KAFKA_ZOOKEEPER_CONNECT=prakashjha:32181" -e "KAFKA_ADVERTISED_LISTENERS=LISTENER_INTERNAL://prakashjha:29090,LISTENER_EXTERNAL://localhost:9090" -e "KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=LISTENER_INTERNAL:PLAINTEXT,LISTENER_EXTERNAL:PLAINTEXT" -e "KAFKA_INTER_BROKER_LISTENER_NAME=LISTENER_INTERNAL" -e "KAFKA_AUTO_CREATE_TOPICS_ENABLE=false" --network=host  confluentinc/cp-kafka:latest
+
+sudo docker run -p 32181:32181 -e ZOOKEEPER_CLIENT_PORT=32181 -e ZOOKEEPER_TICK_TIME=20 --network=host confluentinc/cp-zookeeper:latest
+
+
+
+sudo docker rmi $(sudo docker images -f "dangling=true" -q) (Remove all images with none name and tag)
+
+sudo docker exec -it container_name /bin/bash  (interactive docker)
+
+sudo docker run -p system_port:docker_port -v systemdir:dockerdir imageName (-v for volume share)
+
+sudo docker run -t -p system_port:docker_port -v systemdir:dockerdir imageName (print visible for -t)
+
+sudo docker save imageName > imageName.tar
+
+sudo docker load < imageName.tar
+
+sudo docker build Dockerfile
+
+sudo docker build . -f mydockerfilename.Dockerfile
+
+sudo docker build -t imageName dirName(you want to build)
+
+sudo docker images
+
+sudo docker rmi imagename
+
+sudo docker rm containerId
+
+sudo docker run imageName
+
+sudo docker run -it imageName bash (For interactive run)
+
+sudo docker ps -a
+
+sudo docker ps -l
+
+sudo docker ps
+
+sudo docker login (login to dockerHub for downloading images)
+
+sudo docker pull imageName (Pull docker image from docker-hub)
+
+sudo docker start containerId
+
+sudo docker stop containerId
+
+sudo docker stop $(sudo docker ps -aq) (Stop all docker container)
+
+sudo docker rm $(sudo docker ps -aq) (remove all docker containers)
+
+sudo docker rmi $(sudo docker ps -aq) (remove all docker images)
+
+sudo docker-compose up -d (To run multiple docker containers with inter dependecy)
+
+

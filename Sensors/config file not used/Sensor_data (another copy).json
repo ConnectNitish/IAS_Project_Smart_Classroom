@@ -1,0 +1,12 @@
+{
+    "Room1": {
+        "Temperature_Sensor": "127.0.0.1_7881",
+        "Binary_Door_Step_Sensor": "127.0.0.1_7882",
+        "Numeric_Attendance_Sensor": "127.0.0.1_7883"
+    },
+    "Room2": {
+        "Temperature_Sensor": "127.0.0.1_7891",
+        "Binary_Door_Step_Sensor": "127.0.0.1_7892",
+        "Numeric_Attendance_Sensor": "127.0.0.1_7893"
+    }
+}

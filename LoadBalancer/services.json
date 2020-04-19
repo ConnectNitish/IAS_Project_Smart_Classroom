@@ -1,0 +1,18 @@
+{
+	"services": [
+		{
+			"serviceName": "SchedulingService",
+			"instances": [{"serverID":"server1",
+                "serverIP":"127.0.0.1:7001"},
+                   { "serverID":"server2", 
+                       "serverIP":"127.0.0.1:7002"}]
+			
+		},
+		{
+			"serviceName": "DeploymentService",
+			"instances": [{"serverID":"server3", "serverIP":"127.0.0.1:7002"}]
+			
+		}
+		
+	]
+}

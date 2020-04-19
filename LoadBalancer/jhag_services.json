@@ -1,0 +1,18 @@
+{
+    "4022fef281134aef80f9": {
+        "machine_ip": "127.0.0.1",
+        "machine_port": "9000",
+        "module_name": "scheduler",
+        "service_ip": "0.0.0.0",
+        "service_port": "39479",
+        "uid": "4022fef281134aef80f9"
+    },
+    "bc4b9f03bb285309d037": {
+        "machine_ip": "127.0.0.1",
+        "machine_port": "9000",
+        "module_name": "actnotif",
+        "service_ip": "0.0.0.0",
+        "service_port": "45925",
+        "uid": "bc4b9f03bb285309d037"
+    }
+}

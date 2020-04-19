@@ -1,0 +1,7 @@
+python3 schedule_service.py kafka_ip_port own_ip own_port load_balancer_ip:port
+
+
+python3 schedule_service.py 127.0.0.1:9092 127.0.0.1 7003 0.0.0.0:8001
+own_ip --> ip where scheduler is running i.e current machine ip
+
+

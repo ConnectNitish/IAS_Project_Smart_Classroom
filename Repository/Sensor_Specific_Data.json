@@ -1,0 +1,36 @@
+{
+    "Temperature_Sensor": 
+    {
+        "Frequency": "30",
+        "type": "two-way",
+        "data-type":"float",
+        "min_value":"0",
+        "max_value":"500",
+        "unit":"sec",
+        "temp_unit":"farenhiet",
+        "return_value":"scalar"
+    },
+    "Binary_Door_Step_Sensor":
+    {
+        "Frequency": "2",
+        "type": "one-way",
+        "data-type":"int",
+        "min_value":"0",
+        "max_value":"1",
+        "unit":"sec",
+        "temp_unit":"binary",
+        "return_value":"scalar"
+    },
+    "Numeric_Attendance_Sensor":
+    {
+        "Frequency": "1",
+        "type": "one-way",
+        "data-type":"list",
+        "min_value":"0",
+        "max_value":"0",
+        "unit":"min",
+        "temp_unit":"farenhiet",
+        "return_value":"list"
+    }
+
+}

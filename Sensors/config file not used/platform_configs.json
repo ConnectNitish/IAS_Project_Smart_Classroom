@@ -1,0 +1,11 @@
+{
+    "sensor_manager_topic":"sensor_manager",
+    "kafka_host":"localhost:9092",
+    "admin_topic":"admin_topic",
+    "sensor_mongo_client":"mongodb://localhost:27020/",
+    "ingestion_batchsize":1,
+    "ingestion_response_timeout":1,
+    "ingestion_thread_count":5,
+    "default_count_returned":1,
+    "sensor_manager_response_timeout":0.5
+}

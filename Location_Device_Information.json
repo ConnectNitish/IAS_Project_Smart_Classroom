@@ -1,0 +1,28 @@
+{
+    "Room1": {
+        "AC": {
+            "name": "AC1",
+            "status": "EXTREME_HIGH_TEMP144.5"
+        },
+        "Access": {
+            "name": "Unauthorised_Access",
+            "status": "Breached"
+        },
+        "occupy_buffer_time": "01:00",
+        "occupy_end_time": "12:00",
+        "occupy_start_time": "10:00"
+    },
+    "Room2": {
+        "AC": {
+            "name": "AC1",
+            "status": "off"
+        },
+        "Access": {
+            "name": "Unauthorised_Access",
+            "status": "safe"
+        },
+        "occupy_buffer_time": "01:00",
+        "occupy_end_time": "18:00",
+        "occupy_start_time": "14:00"
+    }
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Application</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+    .row.content {height: 1500px}
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height: auto;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row content">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="nav nav-pills">
+          <li><a href="/">Deployment Manager System</a></li>
+          <li><a href="/Deployment_Interface" class="active">Deployment Interface</a></li>
+          <li><a href="/Live_Service_Instances">Service Instances</a></li>
+          <li><a href="/Scheduler_Invocation">Run Scheduler Algorithm</a></li>
+          <li><a href="/Scheduler_Invocation">Run Scheduler Algorithm</a></li>
+          <li><a href="/Class_Room_Information">Class Room information</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="col-sm-7">
+      <!-- <h4><small>Deploy Platform Service</small></h4> -->
+      <!-- <hr> -->
+      <h4>Live Server Details</h4>
+      <hr>
+        <!-- <form action="/Start_Deployment" method="post"> -->
+          
+        <div class="col-sm-5">
+
+          <table class="table table-dark">
+            <thead>
+              <tr >
+                <th scope="col" > Service Id </th>
+                <th scope="col" > Service Name </th>
+                <th scope="col"> Service IP </th>
+                <th scope="col"> Service Port </th>
+                <th scope="col"> Machine IP </th>
+                <th scope="col"> Machine Port </th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for item, val in data.items() %}
+            <tr>
+                  <th scope="row"><label> {{ val['uid'] }} </label></th>
+                  <th scope="row"><label> {{ val['module_name'] }} </label></th>
+                  <th scope="row"><label> {{ val['service_ip'] }} </label></th>
+                  <th scope="row"><label> {{ val['service_port'] }} </label></th>
+                  <th scope="row"><label> {{ val['machine_ip'] }} </label></th>
+                  <th scope="row"><label> {{ val['machine_port'] }} </label></th>
+            </tr>
+            {% endfor %}
+            </tbody>
+          
+        </table>
+
+        </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<footer class="container-fluid">
+  <p>Footer Text</p>
+</footer>
+
+</body>
+</html>

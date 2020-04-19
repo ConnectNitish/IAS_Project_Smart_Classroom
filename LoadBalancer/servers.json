@@ -1,0 +1,20 @@
+{
+	"servers": [
+		{
+			"serverIP": "127.0.0.1:7001",
+			"username": "chitta",
+			"password": "xyz"
+		},
+		{
+			"serverIP": "127.0.0.1:7002",
+			"username": "chitta",
+			"password": "abc"
+		},
+		{
+			"serverIP": "127.0.0.1:7003",
+			"username": "chitta3",
+			"password": "3rdServer"
+		}
+		
+	]
+}

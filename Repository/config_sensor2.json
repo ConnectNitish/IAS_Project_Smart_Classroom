@@ -1,0 +1,21 @@
+{
+    "type":"new_sensor",
+    "content": {
+        "manufacturer_info": {
+            "name":"b",
+            "date":"2000-5-19",
+            "model No":"qXc5678"
+        },
+        "specifications":{
+            "rating":"0.15wh",
+            "range":"2m",
+            "poll_rate":2
+        },
+        "output_format":{
+            "1":"detected",
+            "0":"undetected"
+        },
+        "type":"temperature",
+        "actions":["start", "stop", "poll_rate"]
+    }   
+}

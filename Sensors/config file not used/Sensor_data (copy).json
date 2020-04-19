@@ -1,0 +1,18 @@
+{
+    "Room1": {
+        "Temperature_Sensor1": "127.0.0.1_7881",
+        "Binary_Door_Step_Sensor": "127.0.0.1_7882",
+        "Numeric_Attendance_Sensor": "127.0.0.1_7883",
+        "closing_hours":"10:00",
+        "opening_hours":"12:00",
+        "buffer_time":"00:05"
+    },
+    "Room2": {
+        "Temperature_Sensor1": "127.0.0.1_7891",
+        "Binary_Door_Step_Sensor": "127.0.0.1_7892",
+        "Numeric_Attendance_Sensor": "127.0.0.1_7893",
+        "closing_hours":"14:00",
+        "opening_hours":"16:00",
+        "buffer_time":"00:05"
+    }
+}

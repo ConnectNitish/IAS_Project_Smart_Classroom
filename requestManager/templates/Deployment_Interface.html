@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Application</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+    .row.content {height: 1500px}
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height: auto;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row content">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="nav nav-pills">
+          <li><a href="/">Deployment Manager System</a></li>
+          <li><a href="/Deployment_Interface" class="active">Deployment Interface</a></li>
+          <li><a href="/Live_Service_Instances">Service Instances</a></li>
+          <li><a href="/Scheduler_Invocation">Run Scheduler Algorithm</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="col-sm-7">
+<!--       <h4><small>Deploy Platform Service</small></h4>
+      <hr> -->
+        <h4>Configuration Details for Deployment</h4>
+        <hr>
+
+        <form action="/Start_Deployment" method="post">
+          
+          <div class="col-sm-5">
+
+<!--           <label> IP-Address </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="text" name="IP_Address"> -->
+
+          <div class="md-form">
+            <label for="IP_Address">IP-Address</label>
+            <input type="text" id="IP_Address" name="IP_Address" class="form-control">
+          </div>
+          <br />
+
+<!--           <label> Port </label>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="text" name="port_number">   -->
+
+          <div class="md-form">
+            <label for="port_number">Port</label>
+            <input type="text" id="port_number" name="port_number" class="form-control">
+          </div>
+
+
+          <br />
+          <label> Service Type </label>  
+          <select name="service_type" class="form-control" style="width:100%;display: block;">
+            <option value="scheduler">Scheduler Service</option>
+            <option value="actnotif">Action & Notiofication Service</option>
+            <!-- <option value="MachineHost">Machine Host</option> -->
+          </select>
+          <br />
+          <button type="submit" class="btn btn-primary mb-2">Deploy</button>
+
+           
+          {% if data['deployment_done'] %}
+              <label> Deployment Succeded </label> 
+          {% endif %}
+
+          </div>
+
+        </form>
+
+    </div>
+  </div>
+  </div>
+</div>
+
+<footer class="container-fluid">
+  <p>Footer Text</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+email = smtplib.SMTP('smtp.gmail.com', 587) 
+	email.starttls() 
+	email.login("varunsurat1995@gmail.com", "Varun@123") 
+
+	Notify_Info = json.loads(stats)
+	print("Notification Msg ",Notify_Info)
+
+	receiver_email = Notify_Info["email_id"]
+
+	
+	message = """\
+
+	Subject : Interaction Notification
+
+	User_ID = """ + Notify_Info["user_id"] + """
+	Status = """ + Notify_Info["status"] 
+  
+	# terminating the session 
+	email.sendmail(sender_email, receiver_email, message)
+	email.quit()
+	print("Server Done")

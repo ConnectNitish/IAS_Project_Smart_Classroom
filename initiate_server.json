@@ -1,0 +1,11 @@
+{
+	"Deployment_Service": "127.0.0.1:9930",
+	"LoadBalancer_Service":"127.0.0.1:9931",
+	"Logging_Service":"127.0.0.1:9932",
+	"Request_Manager_Application":"127.0.0.1:9935",
+	"Repository_Service":"127.0.0.1:9939",
+	"Kafka_Service":"127.0.0.1:9092",
+	"Runtime_Application":"127.0.0.1:9000",
+	"App_Notification_Service":"127.0.0.1:9941",
+	"Scheduling_Service":"127.0.0.1:9942"
+}

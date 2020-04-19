@@ -1,0 +1,9 @@
+flask
+flask_bootstrap
+flask_restful
+schedule
+psutil
+requests
+Logger
+Werkzeug
+kafka-python
