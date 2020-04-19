@@ -46,7 +46,7 @@ list_commands.append('python3 scheduler/schedule_service.py '+ repository_host +
 
 for item in list_commands:
 	print(item)
-	# execute_command(item,5)
+	execute_command(item,5)
 
 
 

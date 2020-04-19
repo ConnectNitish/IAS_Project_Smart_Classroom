@@ -1,14 +1,14 @@
 {
     "Room1": {
         "Access": {
-            "last-modified": "20:32:32",
+            "last-modified": "20:41:36",
             "name": "Unauthorised_Access",
             "status": "Breached"
         },
         "Temperature": {
-            "last-modified": "20:19:52",
+            "last-modified": "20:38:29",
             "name": "AC1",
-            "status": "EXTREME_HIGH_TEMP248.0"
+            "status": "NORMAL_TEMP90.0"
         },
         "occupy_buffer_time": "01:00",
         "occupy_end_time": "12:00",
@@ -21,9 +21,9 @@
             "status": "Breached"
         },
         "Temperature": {
-            "last-modified": "20:25:58",
+            "last-modified": "20:43:06",
             "name": "AC1",
-            "status": "NORMAL_TEMP98.0"
+            "status": "EXTREME_HIGH_TEMP307.0"
         },
         "occupy_buffer_time": "01:00",
         "occupy_end_time": "18:00",
