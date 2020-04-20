@@ -1,8 +1,8 @@
 {"function": [
     {
-    "file_name": "Illegal_Access_Detection.py",
-    "parameters":"Room2 binary_door_step",
-    "email_address":"chitta.vssut@gmail.com;nitish068@gmail.com;prakashecdrid@gmail.com;",
+    "file_name": "Automated_AC_Service.py",
+    "parameters":"Room1 temperature",
+    "email_address":"chitta.vssut@gmail.com;nitish068@gmail.com;",    
     "sched_in_future" : "0",
     "start_date": "5",
     "start_month": "3", 
@@ -16,7 +16,7 @@
     "end_hour": "15", 
     "end_min": "44", 
     "end_sec": "10",
-    "days":["Monday","Tuesday"],
+    "days":["Monday","Tuesday","Wednesday","Thursday","Friday"],
     
     "sched_once_at_time_flag" : "0",
     "sched_at":{
@@ -27,15 +27,15 @@
 
     "sched_at_intervals_flag" : "1",
     "interval_hours": "0",
-    "interval_minutes": "5", 
-    "interval_seconds": "0",
-    "idays":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-    "istart_hour": "00", 
-    "istart_min": "00", 
+    "interval_minutes": "0", 
+    "interval_seconds": "20",
+    "idays":["Monday","Tuesday","Wednesday","Thursday","Friday","Sunday"],
+    "istart_hour": "16", 
+    "istart_min": "09", 
     "istart_sec": "00",
-    "iend_hour": "23", 
-    "iend_min": "59", 
-    "iend_sec": "59",
+    "iend_hour": "16", 
+    "iend_min": "11", 
+    "iend_sec": "00",
 
     "logging": "on",
     "retry": "on",

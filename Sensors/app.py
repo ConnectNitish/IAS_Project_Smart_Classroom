@@ -92,6 +92,8 @@ def generate_random_sensor_data(data_of_sensor):
         content["value"] = generage_logic_for_binary_sensor()
     elif "Numeric_Attendance_Sensor".lower() in lcl_type_of_sensor:
         content["value"] = generate_logic_for_attendance_sensor()
+    elif "Parking_Lot_Sensor".lower() in lcl_type_of_sensor:
+        content["value"] = generage_logic_for_binary_sensor()
     else:
         content["value"] = str(random.randrange(1000,2000))
 

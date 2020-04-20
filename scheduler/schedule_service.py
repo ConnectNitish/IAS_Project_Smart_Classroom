@@ -25,7 +25,7 @@ app = Flask(__name__)
 def handler(signal, frame):
 	global scheduler_ip, scheduler_port, load_balancer_ip_port
 	print('CTRL-C pressed!')
-	unregister(scheduler_ip, scheduler_port, "SchedulingService", load_balancer_ip_port)
+	# unregister(scheduler_ip, scheduler_port, "SchedulingService", load_balancer_ip_port)
 	sys.exit(0)
 
 
@@ -181,6 +181,9 @@ def startNewProcess(appName):
 					# print("start_time_py-------------> ",start_time_py)
 					# print(type(start_time_py))
 					tagStr = appName+"_interval_sched"
+					while(dnow.time() < start_time_py.time()):
+						time.sleep(1) 
+						dnow=datetime.datetime.now()
 					if (dnow.time() > start_time_py.time() ):
 						schedule.every(1).seconds.do(startaction,path=path_to_app,filename=file_name, appname=appName, port=port, ip=ip,
 															username=uname, password=password,inputStream=stream_ip,command_line_params=command_line_params).tag("intitial_sched")
@@ -284,10 +287,6 @@ def ScheduleService():
 
 
 
-def runScheduler():
-	while True:
-		schedule.run_pending()
-		time.sleep(1)
 
 
 # ------------------- Get IP Details 
@@ -348,13 +347,17 @@ def get_ip_and_port(socket):
 # scheduler_ip = sys.argv[2]
 # scheduler_port = sys.argv[3]
 # load_balancer_ip_port = sys.argv[4]
+def runScheduler():
+	while True:
+		schedule.run_pending()
+		time.sleep(1)
 
 def spawn_method(scheduler_ip,scheduler_port,load_balancer_ip_port):
 	th = threading.Thread(target=runScheduler, args=())
 	th.start()
 
-	signal.signal(signal.SIGINT, handler)
-	register(scheduler_ip,scheduler_port,"SchedulingService",load_balancer_ip_port)
+	# signal.signal(signal.SIGINT, handler)
+
 
 if __name__ == '__main__':
 

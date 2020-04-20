@@ -1,18 +1,18 @@
 {
     "Room1": {
         "Access": {
-            "last-modified": "Monday, 20 April 2020 11:28AM",
+            "last-modified": "Monday, 20 April 2020 04:42PM",
             "name": "Unauthorised_Access",
-            "status": "Safe"
+            "status": "Breached"
         },
         "Temperature": {
-            "last-modified": "Monday, 20 April 2020 11:25AM",
+            "last-modified": "Monday, 20 April 2020 04:44PM",
             "name": "AC1",
-            "status": "NORMAL_TEMP83.0"
+            "status": "EXTREME_HIGH_TEMP158.0"
         },
         "occupy_buffer_time": "01:00",
-        "occupy_end_time": "16:00",
-        "occupy_start_time": "15:00"
+        "occupy_end_time": "06:00",
+        "occupy_start_time": "05:00"
     },
     "Room2": {
         "Access": {

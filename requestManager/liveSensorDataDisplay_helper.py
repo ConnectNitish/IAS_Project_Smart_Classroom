@@ -48,8 +48,8 @@ def get_All_Sensor_Configuration():
         get_All_Sensor_Configuration = json.load(fp)
     
     if __debug__ :
-        pass
-        # print(get_All_Sensor_Configuration)
+        # pass
+        print(get_All_Sensor_Configuration)
 
     return get_All_Sensor_Configuration
 
@@ -80,6 +80,14 @@ def getData():
             c = Consumer({'bootstrap.servers': kafka_IP_plus_port, 'group.id': '1', 'auto.offset.reset': 'earliest'})
             message_recieved = kafka_receive_message(c,topic) 
             c.close()
+            
+            if __debug__:
+                print(" Read From Sensors ")
+                print(message_recieved)
+
+            if message_recieved == None:
+                continue
+
             message_recieved = eval(message_recieved)
             retDict['time'] = message_recieved["content"]["time"]
             retDict['value'] = message_recieved["content"]["value"]
