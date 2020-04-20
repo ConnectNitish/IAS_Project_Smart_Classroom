@@ -89,7 +89,38 @@ def update_status(location,device,status):
     
     r=requests.get(url=custom_URL).content
     r = r.decode('utf-8')
+    # if __debug__:
+        
+    #     print(" Response From Notification ")
+    #     print(r)
+
+    return r
+
+def send_email_to_notification(message_for_email):
+
+    get_app_notification_Url = get_ip_port("App_Notification_Service")
+
+    if __debug__:
+        print(" Obtained URL of App Notfication Service ")
+        print(get_app_notification_Url)
+
+    str_message_for_email = str(message_for_email)
+
+    notification_URL = "http://"+get_app_notification_Url+"/"
+    custom_URL = notification_URL+"send_email/"+str_message_for_email
+
+    if __debug__:
+        print(" Obtained full URL of App Notfication Service ")
+        print(custom_URL)
+
+    
+    r=requests.get(url=custom_URL).content
+    r = r.decode('utf-8')
     # print(r)
+    if __debug__:
+        print(" Response From Notification at last of send_email_to_notification \n")
+        print(r,"\n\n")
+
     return r
 
 sensor_information = "Sensor_data.json"
@@ -100,8 +131,8 @@ def get_All_Sensor_Configuration():
     with open(sensor_specific_configuration, 'r') as fp:
         get_All_Sensor_Configuration = json.load(fp)
     
-    if __debug__:
-        print(get_All_Sensor_Configuration)
+    # if __debug__:
+    #     print(get_All_Sensor_Configuration)
 
     return get_All_Sensor_Configuration
 
@@ -183,11 +214,45 @@ def check_illegal_Access_time_frame(time_details_of_room):
     end_time_minute = (end_time_minute + buffer_time_minute + 60 ) % 60
     start_time_minute = (start_time_minute - buffer_time_minute + 60 ) % 60
 
+    if __debug__:
+
+        print(" Check Time Constraints Start ")
+        
+        print(" start_time_hour ",start_time_hour,\
+            " \t end_time_hour" , end_time_hour)
+
+        print(" hour_time_current \t ",hour_time_current,"\n")
+
+        print(" hour_time_current >= start_time_hour ", (hour_time_current >= start_time_hour),"")
+        print(" hour_time_current <= end_time_hour ", (hour_time_current <= end_time_hour),"")
+
+        print(" Check Time Constraints Ends ")
+
     if hour_time_current >= start_time_hour and hour_time_current <= end_time_hour:
         
         return True
 
     return False
+
+def prepare_email(status,location):
+    try:
+
+        time.sleep(3)
+        lcl_message_for_email = {}
+        lcl_message_for_email["status"] = status
+        lcl_message_for_email["time_stamp"] = time.strftime("%A_%d_%B_%Y_%I_%M_%p")
+        lcl_message_for_email["algorithm"] = "Illegal_Access_Detection"
+        lcl_message_for_email["topic_name"] = "Security_Breach"
+        lcl_message_for_email["location"] = location
+
+        if __debug__:
+            print("\n\n Mail Content \n")
+            print(lcl_message_for_email,"\n\n")
+        
+        send_email_to_notification(lcl_message_for_email)
+    except:
+        print(" Error while Preparing Email ")
+
 
 def perform_illegal_access_detection(room_no,sensor_type):
 
@@ -223,7 +288,7 @@ def perform_illegal_access_detection(room_no,sensor_type):
             print(" Start Consumption ")
             print(item,value)
 
-        bool_check_time_range = False
+        bool_check_time_range = True
 
         if bool_check_time_range and check_illegal_Access_time_frame(lcl_device_file_data_for_all_room[lcl_room_to_precool]) == True:
             print(" -- Time Out of Range -- ")
@@ -279,9 +344,11 @@ def perform_illegal_access_detection(room_no,sensor_type):
     if lcl_access_breached == True:
         update_status(lcl_room_to_precool,"Access","Breached")
         final_action_to_do = "Breached"
+        prepare_email(final_action_to_do,lcl_room_to_precool)
     else:
         update_status(lcl_room_to_precool,"Access","Safe")
         final_action_to_do = "Safe"
+        # prepare_email(final_action_to_do,lcl_room_to_precool)
 
     print(final_action_to_do)
 

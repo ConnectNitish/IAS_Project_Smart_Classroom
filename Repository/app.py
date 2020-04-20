@@ -113,4 +113,4 @@ if __name__=='__main__':
     if __debug__:
         print(" repository_ip,repository_port ",repository_ip,repository_port)
 
-    app.run(host=repository_ip,debug=False,port=int(repository_port),threaded=True)
+    app.run(host=repository_ip,debug=True,port=int(repository_port),threaded=True)

@@ -12,7 +12,7 @@ import logging
 import xmltodict
 import sys
 from kafka_helper import kafka_api
-from liveSensorDataDisplay_helper import getData
+
 
 kafka_api_obj = kafka_api()
 
@@ -37,15 +37,9 @@ repository_URL = "http://"+sys.argv[1]
 @app.route('/')
 def landingPage():
     return render_template('index.html')
-	
+
 def prepare_and_send_log_message(topic_name,key,value,kafka_IP_plus_port):
     kafka_api_obj.produce_topic(topic_name,key,value,kafka_IP_plus_port)
-
-@app.route('/Live_sensor_data')
-def live_sensor_data():
-    # print(os.getcwd())
-    data =  getData()
-    return render_template('showSensorData.html',data = data)
 
 @app.route('/Deployment_Interface')
 def Deployment_Interface():
@@ -256,16 +250,8 @@ def save_data(device_file_name,data):
 
 @app.route('/Service_Execution_Interface',methods=['GET','POST'])
 def execute_use_case():
-    f = request.files['file']
-    f.save(secure_filename(f.filename))
-
-    if __debug__:
-        print(" File Name ")
-        print(f.filename,"")
-        print("")
-
     
-    '''lcl_algo_key = "algorithm_details"
+    lcl_algo_key = "algorithm_details"
     lcl_algo_name = "algorithm_details"
     lcl_location_key = "Room_Location"
     lcl_location_name = ""
@@ -278,43 +264,38 @@ def execute_use_case():
         print(lcl_algo_key_value)
         print(lcl_location_key_value)
 
-    '''
-
-    # if lcl_location_key_value==None or lcl_algo_key_value==None:
-    #     return get_use_case_entry_point()
+    if lcl_location_key_value==None or lcl_algo_key_value==None:
+        return get_use_case_entry_point()
 
     '''
         Pick the Template from the Algorithms 
         update as per need and save 
 
     '''
-    lcl_template_for_scheuduler = get_device_info_for_room(f.filename)
+    lcl_template_for_scheuduler = get_device_info_for_room(scheduler_template_file)
 
-    # lcl_string_value_param = None
-    # lcl_string_value_file_name = None
+    lcl_string_value_param = None
+    lcl_string_value_file_name = None
 
-    if __debug__:
-        print(" Printing File Content ")
-        print(lcl_template_for_scheuduler.keys())
-        print(lcl_template_for_scheuduler["function"][0])
-
-    lcl_algorithm_file_name = lcl_template_for_scheuduler["function"][0]["file_name"]
-
-    if lcl_algorithm_file_name == "Automated_AC_Service.py":
-        # lcl_string_value_param = lcl_location_key_value + " " + "temperature"
-        lcl_string_value_file_name = "Automated_AC_Service"
-    elif lcl_algorithm_file_name == "Illegal_Access_Detection.py":
-        # lcl_string_value_param = lcl_location_key_value + " " + "binary_door_step"
-        lcl_string_value_file_name = "Illegal_Access_Detection"
+    if lcl_algo_key_value == "Automated_AC_Service":
+        lcl_string_value_param = lcl_location_key_value + " " + "temperature"
+        lcl_string_value_file_name = "Automated_AC_Service.py"
+    elif lcl_algo_key_value == "Illegal_Access_Detection":
+        lcl_string_value_param = lcl_location_key_value + " " + "binary_door_step"
+        lcl_string_value_file_name = "Illegal_Access_Detection.py"
     else:
         return render_template('Service_Execution.html')
 
-
+    if __debug__:
+        print(lcl_template_for_scheuduler["function"])
           
-    # lcl_template_for_scheuduler["function"][0]["file_name"] = lcl_string_value_file_name
-    # lcl_template_for_scheuduler["function"][0]["parameters"] = lcl_string_value_param
+    lcl_template_for_scheuduler["function"][0]["file_name"] = lcl_string_value_file_name
+    lcl_template_for_scheuduler["function"][0]["parameters"] = lcl_string_value_param
 
-    lcl_new_file_name = lcl_string_value_file_name +".scheduler_config.json"
+    if __debug__:
+        print(lcl_template_for_scheuduler)
+
+    lcl_new_file_name = lcl_algo_key_value+".scheduler_config.json"
 
     lcl_saving_location = repository_folder_location + "/" + lcl_new_file_name
     
@@ -322,11 +303,8 @@ def execute_use_case():
         print(" File Path Location ")
         print(lcl_saving_location)
 
-    print("lcl_saving_location------------------------------->")
-    print("--------------------------------------")
-    print(lcl_saving_location)
-    os.rename(f.filename, lcl_saving_location)
-    # save_data(lcl_saving_location,lcl_template_for_scheuduler)
+    ''''''
+    save_data(lcl_saving_location,lcl_template_for_scheuduler)
     time.sleep(5)
 
     # Call to Scheduler For Invocation 
@@ -337,7 +315,7 @@ def execute_use_case():
         print(lcl_scheduler_service_ip_port,"")
 
     datatosend = {}
-    datatosend['appName'] = lcl_string_value_file_name
+    datatosend['appName'] = lcl_algo_key_value
 
     lcl_scheduler_service_ip_port = get_ip_port("Scheduling_Service")
     url_schedule_service = "http://"+lcl_scheduler_service_ip_port+"/ScheduleService"

@@ -1,7 +1,7 @@
 {"function": [
     {
     "file_name": "Automated_AC_Service.py",
-    "parameters":"Room1 temperature",
+    "parameters":"Room2 temperature",
     "email_address":"chitta.vssut@gmail.com;nitish068@gmail.com;",    
     "sched_in_future" : "0",
     "start_date": "5",

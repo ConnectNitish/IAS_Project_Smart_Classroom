@@ -2,6 +2,7 @@
     {
     "file_name": "Automated_AC_Service.py",
     "parameters":"Room1 temperature",
+    "email_address":"nitish068@gmail.com;chitta.vssut@gmail.com;",
     "sched_in_future" : "0",
     "start_date": "5",
     "start_month": "3", 

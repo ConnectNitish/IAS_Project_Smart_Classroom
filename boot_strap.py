@@ -44,9 +44,11 @@ list_commands.append('python3 scheduler/schedule_service.py '+ repository_host +
 # list_commands.append('python3 chitta_schedulingService/demoRequestManager.py &')
 # list_commands.append('')
 
+execute_command('clear',0.5)
+
 for item in list_commands:
 	print(item)
-	execute_command(item,5)
+	# execute_command(item,5)
 
 
 

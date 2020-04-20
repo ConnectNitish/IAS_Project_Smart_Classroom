@@ -43,7 +43,7 @@ def change_status_of_device_1(location,device,status):
 def change_status_of_device(location,device,status):
     lcl_get_device_info_for_room = get_device_info_for_room(device_data_file)
     lcl_get_device_info_for_room[location][device]["status"] = status
-    lcl_get_device_info_for_room[location][device]["last-modified"] = time.strftime('%H:%M:%S')
+    lcl_get_device_info_for_room[location][device]["last-modified"] = time.strftime("%A, %d %B %Y %I:%M%p")
 
     print(lcl_get_device_info_for_room)
 
@@ -54,6 +54,62 @@ def change_status_of_device(location,device,status):
 
     save_data(device_data_file,lcl_get_device_info_for_room)
     return "Success"
+
+path_for_configuration_file = os.getcwd()+"/Repository/Scheduler_Config_file"
+
+@app.route('/send_email/<message>')
+def send_email(message):
+
+    lcl_dict_message = eval(message)
+
+    if __debug__:
+        print(" message to Send Email Dict ")
+        print(lcl_dict_message,"")
+        print(type(lcl_dict_message),"")
+        print(" message to Send Email Text ")
+        print(lcl_dict_message,"")
+        print(type(lcl_dict_message),"")
+
+    try:
+        lcl_data = {}
+
+        lcl_data['location'] = lcl_dict_message['location']
+        lcl_data['time_stamp'] = lcl_dict_message['time_stamp']
+        lcl_data['status'] = lcl_dict_message['status']
+        lcl_algorithm_name = lcl_dict_message['algorithm']
+
+        lcl_path_of_scheduler_config = path_for_configuration_file + \
+                                        "/" + lcl_algorithm_name + \
+                                        ".scheduler_config.json"
+
+        if __debug__:
+            print(" Path of Scheduler Config ")
+            print( lcl_path_of_scheduler_config,"" )
+
+        lcl_load_data_from_scheduler_file = \
+                    get_device_info_for_room(lcl_path_of_scheduler_config)
+
+        try:
+
+            if lcl_load_data_from_scheduler_file['function'][0]['email_address'] != "":
+                lcl_data['to_email_id'] =  \
+                    lcl_load_data_from_scheduler_file['function'][0]['email_address']
+
+        except:
+                lcl_data['to_email_id'] = "self"
+                lcl_data['status'] = "Error in Configuration file"
+
+        if __debug__:
+            print( " Final Email Data To Send ")
+            print(lcl_data,"")
+
+        sendemail_via_gmail(lcl_data)
+
+    except:
+        return "Problem In Sending Email"
+
+    return "Mail Sent Successfully"
+
 
 repository_URL = "http://"+sys.argv[1]
 

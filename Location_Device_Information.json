@@ -1,29 +1,29 @@
 {
     "Room1": {
         "Access": {
-            "last-modified": "20:41:36",
+            "last-modified": "Monday, 20 April 2020 11:19AM",
             "name": "Unauthorised_Access",
-            "status": "Breached"
+            "status": "Safe"
         },
         "Temperature": {
-            "last-modified": "20:38:29",
+            "last-modified": "Monday, 20 April 2020 11:25AM",
             "name": "AC1",
-            "status": "NORMAL_TEMP90.0"
+            "status": "NORMAL_TEMP83.0"
         },
         "occupy_buffer_time": "01:00",
-        "occupy_end_time": "12:00",
-        "occupy_start_time": "10:00"
+        "occupy_end_time": "16:00",
+        "occupy_start_time": "15:00"
     },
     "Room2": {
         "Access": {
-            "last-modified": "20:29:36",
+            "last-modified": "Monday, 20 April 2020 11:25AM",
             "name": "Unauthorised_Access",
-            "status": "Breached"
+            "status": "Safe"
         },
         "Temperature": {
-            "last-modified": "20:43:06",
+            "last-modified": "Monday, 20 April 2020 11:25AM",
             "name": "AC1",
-            "status": "EXTREME_HIGH_TEMP307.0"
+            "status": "NORMAL_TEMP78.0"
         },
         "occupy_buffer_time": "01:00",
         "occupy_end_time": "18:00",
