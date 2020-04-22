@@ -13,19 +13,11 @@ from kafka import KafkaConsumer
 from kafka.errors import KafkaError
 from confluent_kafka import Producer, Consumer, KafkaError
 
-repository_URL = "http://127.0.0.1:9939/"
-sensor_information = "Sensor_data.json"
-sensor_specific_configuration = "Sensor_Specific_Data.json"
-
+repository_URL = "http://0.0.0.0:9939/"
 
 
 def get_ip_port(module_name):
     custom_URL = repository_URL+"get_running_ip/"+module_name
-
-    # if __debug__:
-    #     print(" Get IP port of Module ")
-    #     print(custom_URL)
-
     r=requests.get(url=custom_URL).content
     r = r.decode('utf-8')
     # print(r)
@@ -38,29 +30,10 @@ def kafka_receive_message(c, consumer_topic_name):
         msg = msg.value().decode('utf-8')
     return msg
 
-def get_All_Sensor_information(sensor_information):
-    with open(sensor_information, 'r') as fp:
-        all_sensor_info = json.load(fp)
-    return all_sensor_info
+def getData(all_sensor_info,all_sensor_config):
 
-def get_All_Sensor_Configuration():
-    with open(sensor_specific_configuration, 'r') as fp:
-        get_All_Sensor_Configuration = json.load(fp)
-    
-    if __debug__ :
-        # pass
-        print(get_All_Sensor_Configuration)
-
-    return get_All_Sensor_Configuration
-
-
-
-def getData():
     kafka_IP_plus_port = get_ip_port("Kafka_Service")
-    print(os.getcwd())
-    print("helo-------------------------")
-    all_sensor_info = get_All_Sensor_information(sensor_information)
-    all_sensor_config = get_All_Sensor_Configuration()
+
     retDict = {} 
     temp = {}
     cnt = 1
@@ -105,5 +78,3 @@ def getData():
         # retDict["value"] = ot
     return all_list
            
-d = getData()
-print(d)

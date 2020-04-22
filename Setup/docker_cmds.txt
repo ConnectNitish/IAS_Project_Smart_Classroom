@@ -146,3 +146,54 @@ sudo docker rmi $(sudo docker ps -aq) (remove all docker images)
 sudo docker-compose up -d (To run multiple docker containers with inter dependecy)
 
 
+
+https://docs.docker.com/engine/install/ubuntu/
+https://chrisjean.com/fix-apt-get-update-the-following-signatures-couldnt-be-verified-because-the-public-key-is-not-available/
+refrences:
+https://stackoverflow.com/questions/35511604/docker-unable-to-prepare-context-unable-to-evaluate-symlinks-in-dockerfile-pat
+
+TO DO 
+1.  
+sudo docker build -t base_docker -f base_docker .
+2. 
+sudo docker build -t python_base -f python_base .
+3. 
+
+cd /media/n/Garbage/sem4/IAS/Project/my/nitish/n-code/git/IAS_Project_Smart_Classroom/Algorithm_Docker
+
+sudo docker build -t algo_base .
+
+Take .tar 
+1.
+sudo docker save algo_base > algo_base.tar
+
+1.
+Place .tar into 
+/media/n/Garbage/sem4/IAS/Project/my/nitish/n-code/git/IAS_Project_Smart_Classroom/Repository/docker_repository
+
+--------------------------------------------------------
+
+Make sure runtime->algorithm is empty 
+
+
+---------------------------------------------------------
+sudo docker run hello-world
+
+sudo apt-get install docker-ce=5:19.03.8~3-0~ubuntu-bionic docker-ce-cli=5:19.03.8~3-0~ubuntu-bionic containerd.io
+
+
+
+delete the containers from docker 
+
+1. containers 
+
+sudo docker stop $(sudo docker ps -aq)
+sudo docker rm $(sudo docker ps -aq)
+
+2. Empty JSON in repo 
+
+
+
+sudo docker network create --driver bridge --subnet 192.168.0.1/24 dockernet
+
+

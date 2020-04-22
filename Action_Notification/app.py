@@ -21,39 +21,30 @@ global app_notification_ip_port
 kafka_IP_plus_port = None
 app_notification_ip_port = None
 
+repository_URL = "http://"+sys.argv[1]
 @app.route('/')
 def landingPage():
     return "You are at Action Notification module"
 
-def get_device_info_for_room(device_file_name):
-    with open(device_file_name, 'r') as fp:
-        device_file_name = json.load(fp)
+def load_data(filename):
+    with open(filename, 'r') as fp:
+        data = json.load(fp)
     # device_file_name = json.dumps(device_file_name)
-    return device_file_name
+    return data
 
 def save_data(device_file_name,data):
     with open(device_file_name, 'w') as fp:
         json.dump(data, fp, indent=4, sort_keys=True)
 
-@app.route('/start_device_1/<location>/<device>/<status>')
-def change_status_of_device_1(location,device,status):
-    pass
 
 @app.route('/start_device/<location>/<device>/<status>')
 def change_status_of_device(location,device,status):
-    lcl_get_device_info_for_room = get_device_info_for_room(device_data_file)
-    lcl_get_device_info_for_room[location][device]["status"] = status
-    lcl_get_device_info_for_room[location][device]["last-modified"] = time.strftime("%A, %d %B %Y %I:%M%p")
 
-    print(lcl_get_device_info_for_room)
+    repo_response = requests.get(repository_URL+"/update_sensor_status/{}/{}/{}".format(location,device,status)).content
+    repo_response = json.loads(repo_response.decode('utf-8'))
 
-	# if __debug__:
-	# 	print(lcl_get_device_info_for_room)
+    return repo_response
 
-	# lcl_get_device_info_for_room[location][device]["status"] = status
-
-    save_data(device_data_file,lcl_get_device_info_for_room)
-    return "Success"
 
 path_for_configuration_file = os.getcwd()+"/Repository/Scheduler_Config_file"
 
@@ -111,7 +102,6 @@ def send_email(message):
     return "Mail Sent Successfully"
 
 
-repository_URL = "http://"+sys.argv[1]
 
 def get_ip_port(module_name):
     custom_URL = repository_URL+"/get_running_ip/"+module_name

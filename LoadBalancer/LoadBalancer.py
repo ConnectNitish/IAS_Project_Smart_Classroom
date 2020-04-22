@@ -51,28 +51,6 @@ load_balancer_ip_port = None
 
 repository_URL = "http://"+sys.argv[1]
 
-# ---------------- Configuration Section End
-
-
-'''
-# Team_2_Old_Code
-class LoadBalancer:
-
-    
-    def __init__(self, server_config, service_config):
-        self.servers = {}
-        self.services = {}
-
-    def load_data(self):
-        with open(service_config, 'r') as fp:
-            self.services = json.load(fp)
-        print(self.services)
-
-    def save_data(self):
-        with open(service_config, 'w') as fp:
-            json.dump(self.services, fp, indent=4, sort_keys=True)
-
-'''
 
 class LoadBalancer:
 
@@ -258,6 +236,15 @@ def get_server_stats(ip):
     return jsonify( load_balancer.getServerDetails(ip) )
 
 
+@app.route('/get_ip_port')
+def get_ip_port_runtime():
+    '''
+        logic to get ip port of runtime
+    '''
+    reply = {}
+    reply["ip"] = "0.0.0.0"
+    reply["port"] = "3000"
+    return jsonify(reply)
 @app.route('/update_server_status', methods=['POST'])
 def update_server_status():
     if request.method =='POST':

@@ -1,22 +1,20 @@
 {"function": [
     {
-        "usecase_name": "Automated_AC_Service",
+    "file_name": "pre_cool_classroom.py",
     "parameters":"Room1 temperature",
-    "email_address":"chitta.vssut@gmail.com;nitish068@gmail.com;prakashecdrid@gmail.com;",    
     "sched_in_future" : "0",
     "start_date": "5",
     "start_month": "3", 
     "start_year": "2020", 
     "sched_day": ["THU"],
     
-    "sched_only_between" : "0",
+    "sched_only_between" : "1",
     "start_hour": "15", 
     "start_min": "42", 
     "start_sec": "00",
     "end_hour": "15", 
     "end_min": "44", 
     "end_sec": "10",
-    "days":["Monday","Tuesday","Wednesday","Thursday","Friday"],
     
     "sched_once_at_time_flag" : "0",
     "sched_at":{
@@ -25,17 +23,10 @@
         "second":"5"
     } ,
 
-    "sched_at_intervals_flag" : "1",
+    "sched_at_intervals_flag" : "0",
     "interval_hours": "0",
     "interval_minutes": "0", 
-    "interval_seconds": "20",
-    "idays":["Monday","Tuesday","Wednesday","Thursday","Friday","Sunday"],
-    "istart_hour": "16", 
-    "istart_min": "09", 
-    "istart_sec": "00",
-    "iend_hour": "16", 
-    "iend_min": "11", 
-    "iend_sec": "00",
+    "interval_seconds": "3",
 
     "logging": "on",
     "retry": "on",

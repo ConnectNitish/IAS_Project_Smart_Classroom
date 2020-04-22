@@ -1,33 +1,19 @@
 import socket                
 import threading
-import sys
-import json
+import sys, time
+import json, os
 import random
 import datetime
 import time,random
-
-sensor_information = "Sensor_data.json"
-sensor_specific_configuration = "Sensor_Specific_Data.json" 
+import requests
 
 # ------------------------------ Nitish Changes 
-
-def get_All_Sensor_information():
-    with open(sensor_information, 'r') as fp:
-        all_sensor_info = json.load(fp)
+repository_URL = "http://"+sys.argv[1]
     
-    if __debug__:
-        print(all_sensor_info)
+sensor_config_file_name = os.getcwd() + "/Sensors/config_sensor2.json"
 
-    return all_sensor_info
-
-def get_All_Sensor_Configuration():
-    with open(sensor_specific_configuration, 'r') as fp:
-        get_All_Sensor_Configuration = json.load(fp)
     
-    if __debug__:
-        print(get_All_Sensor_Configuration)
 
-    return get_All_Sensor_Configuration
 
 def get_Sensor_Info_As_perlocation(all_sensor_location,location_name):
     return all_sensor_location[location_name]
@@ -108,19 +94,8 @@ def generate_random_sensor_data(data_of_sensor):
     random_data = json.dumps(random_data)
     return random_data
 
-# ------------------------------ Nitish Changes End 
-
-def get_All_Sensor_information():
-    with open(sensor_information, 'r') as fp:
-        all_sensor_info = json.load(fp)
-    
-    if __debug__:
-        print(all_sensor_info,"")
-
-
-    return all_sensor_info
-
 def get_Sensor_Info_As_perlocation(all_sensor_location,location_name):
+
     return all_sensor_location[location_name]
 
 def udp_init():
@@ -129,15 +104,6 @@ def udp_init():
     sensor_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sensor_sock.bind((sensor_ip, sensor_port))
     return sensor_ip, sensor_port, sensor_sock
-
-# sensor data format (gateway sends this to sensor topic (ip_port of sensor))
-# {
-#     "type": "sensor_data",
-#     "content": {
-#         "time": "...", \\get time using datetime.datetime.utcnow()
-#         "value": "..." \\generate value randomly
-#     }
-# }
 
 def generate_random_data(start, end):
     random_data = {}
@@ -245,21 +211,15 @@ def get_sensor_info(sensor_file_name):
     sensor_data = json.dumps(sensor_data)
     return sensor_data
 
-sensor_config_file_name = "config_sensor2.json"
 
 def main():
-    # sensor_config_file_name = sys.argv[1]
     sensor_data = get_sensor_info(sensor_config_file_name)
 
-    # sensor_data = {'name':'a'}
+    all_sensor_info_with_location = requests.get(repository_URL+"/get_all_sensor_info").content
+    all_sensor_info_with_location = json.loads(all_sensor_info_with_location.decode("utf-8"))
 
-    #--------------------------------------
-
-    if __debug__:
-        print("--------------- Nitish Changes Start ---------------- ")
-
-    all_sensor_info_with_location =  get_All_Sensor_information()
-    lcl_all_sensor_config = get_All_Sensor_Configuration()
+    lcl_all_sensor_config = requests.get(repository_URL+"/get_all_sensor_config").content
+    lcl_all_sensor_config = json.loads(lcl_all_sensor_config.decode("utf-8"))
 
     if __debug__:
         print(" All Sensor Information ")
@@ -268,10 +228,6 @@ def main():
         print(lcl_all_sensor_config,"")
 
     for item in all_sensor_info_with_location:
-        
-        # if __debug__:
-        #     print(" ---- Room Details ---- ")
-        #     print(item,"")
         
         for location_sensor in all_sensor_info_with_location[item].keys():
 

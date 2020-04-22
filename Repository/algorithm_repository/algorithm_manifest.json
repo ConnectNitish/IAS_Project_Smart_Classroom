@@ -1,0 +1,80 @@
+{
+	"Automated_AC_Service":
+	{
+		"num_input_params":2,
+		"input":["room_id","sensor_type"],
+		"input_type":["string"],
+		"num_output_val":0,
+		"output":[],
+		"output_type":"list",
+		"email_group":"NA",
+		"service_dependency":["get_sensor_data","get_sensor_id"],
+		"package_dependency":[],
+		"execution_command": "python3 Automated_AC_Service.py {}"
+	},
+	"fire_alarm_service":
+	{
+		"num_input_params":1,
+		"input":["room_id"],
+		"input_type":["string"],
+		"num_output_val":0,
+		"output":[],
+		"output_type":"list",
+		"email_group":"FAS_Group",
+		"service_dependency":["get_sensor_data","get_sensor_id"],
+		"package_dependency":["numpy","json","dill"],
+		"execution_command": "python3 Fire_Alarm_Service.py {}"
+	},
+	"Illegal_Access_Detection":
+	{
+		"num_input_params":2,
+		"input":["room_id","sensor_type"],
+		"input_type":["string"],
+		"num_output_val":0,
+		"output":[],
+		"output_type":"list",
+		"email_group":"IADS_Group",
+		"service_dependency":["get_sensor_data","get_sensor_id"],
+		"package_dependency":[],
+		"execution_command": "python3 Illegal_Access_Detection_Service.py {}"
+	},
+	"get_sensor_data":
+	{
+		"num_input_params":2,
+		"input":["sensor_id","time_interval"],
+		"input_type":["string","integer"],
+		"num_output_val":1,
+		"output":"list of sensor data",
+		"output_type":"list",
+		"email_group":"NA",
+		"service_dependency":[],
+		"package_dependency":["numpy","json","dill"],
+		"execution_command": "python3 get_sensor_data.py {} {}"
+	},
+	"get_sensor_id":
+	{
+		"num_input_params":1,
+		"input":["room_id"],
+		"input_type":["string"],
+		"num_output_val":1,
+		"output":"list of sensor id",
+		"output_type":"list",
+		"email_group":"NA",
+		"service_dependency":[],
+		"package_dependency":["numpy","json","dill"],
+		"execution_command": "python3 get_sensor_id.py {}"
+	},
+	"algo1":
+	{
+		"num_input_params":1,
+		"input":["room_id"],
+		"input_type":["string"],
+		"num_output_val":1,
+		"output":"list of sensor id",
+		"output_type":"list",
+		"email_group":"NA",
+		"service_dependency":[],
+		"package_dependency":["numpy","json","dill"],
+		"execution_command": "python3 algo1.py {}"	
+	}
+}

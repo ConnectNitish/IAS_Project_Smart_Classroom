@@ -7,5 +7,3 @@ requests
 Logger
 Werkzeug
 kafka-python
-requests
-unzip

@@ -1,0 +1,39 @@
+sudo mysql -u root -p
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
+exit;
+
+sudo service mysql stop
+sudo service mysql start
+
+mysql -u root -p
+type password as root
+
+create database IAS;
+
+TRUNCATE TABLE SCHED;
+drop table SCHED;
+
+
+CREATE TABLE SCHEDULER (
+id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+algoname VARCHAR(100) ,
+status VARCHAR(50) ,
+start_time VARCHAR(50),
+end_time VARCHAR(50),
+ip_port VARCHAR(50),
+processid VARCHAR(50)
+);
+
+
+# https://www.linode.com/docs/databases/mysql/install-mysql-on-ubuntu-14-04/#harden-mysql-server
+
+# pip3 install mysql-connector-python
+
+INSERT INTO mysql.user (Host, User, authentication_string) VALUES ('%', 'root', password('root'));
+GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION;
+
+
+cnx = mysql.connector.connect(user='root', password='root',
+                              host='127.0.0.1',
+                              database='IAS')

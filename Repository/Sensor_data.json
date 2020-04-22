@@ -20,6 +20,11 @@
         {
             "socket":"127.0.0.1_7884",
             "sensor_type":"Temperature_Sensor"
+        },
+        "Parking_Lot_Sensor_1": 
+        {
+            "socket":"127.0.0.1_7885",
+            "sensor_type":"Parking_Lot_Sensor"
         }
     },
     "Room2":

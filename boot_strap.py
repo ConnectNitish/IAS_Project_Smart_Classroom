@@ -48,7 +48,7 @@ list_commands.append('python3 requestManager/request_manager.py '+ repository_ho
 list_commands.append('python3 LoadBalancer/LoadBalancer.py '+ repository_host +' &')
 
 list_commands.append('python3 deployer/app.py '+ repository_host +' &')
-list_commands.append('python3 runtime/app.py '+ repository_host +' &')
+list_commands.append('sudo python3 runtime/app.py '+ repository_host +' &')
 
 list_commands.append('python3 Action_Notification/app.py '+ repository_host +' &')
 list_commands.append('python3 scheduler/schedule_service.py '+ repository_host +' &')

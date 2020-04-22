@@ -21,6 +21,13 @@ import sys
 
 app = Flask(__name__)
 
+global kafka_IP_plus_port
+global load_balancer_ip_port
+global scheduler_ip_port
+kafka_IP_plus_port = None
+load_balancer_ip_port = None
+scheduler_ip_port = None
+repository_URL = "http://"+sys.argv[1]+"/"
 
 def handler(signal, frame):
 	global scheduler_ip, scheduler_port, load_balancer_ip_port
@@ -285,23 +292,29 @@ def ScheduleService():
 	x.start()
 	return "scheduled"
 
+#prakash
+@app.route('/schedule_algo', methods=['POST'])
+def schedule_algo():
+	data = request.json
+	algo_name = data["function"][0]["algo_name"]
+	runtime_ip = data["function"][0]["runtime_ip"]
+	runtime_port = data["function"][0]["runtime_port"]
+	#rest of the scheduling data can be read from data dictionary similar to parsing XYZ.scheduler_config.json 
+	'''
+		scheduler logic
+	'''
+	reply = {}
+	reply["status"] = "success"
+	return jsonify(reply)
 
-
-
-
-# ------------------- Get IP Details 
-
-global kafka_IP_plus_port
-global load_balancer_ip_port
-global scheduler_ip_port
-
-kafka_IP_plus_port = None
-load_balancer_ip_port = None
-scheduler_ip_port = None
-
-
-
-repository_URL = "http://"+sys.argv[1]+"/"
+#prakash
+'''
+Send execute request to runtime
+endpoint /start
+method = POST
+expected return value is
+{"algo_name":"XYZ", "params":["x","y"]}
+'''
 
 def get_ip_port(module_name):
     custom_URL = repository_URL+"get_running_ip/"+module_name

@@ -31,6 +31,17 @@
         "unit":"min",
         "temp_unit":"farenhiet",
         "return_value":"list"
+    },
+    "Parking_Lot_Sensor":
+    {
+        "Frequency": "5",
+        "type": "one-way",
+        "data-type":"int",
+        "min_value":"0",
+        "max_value":"1",
+        "unit":"sec",
+        "temp_unit":"binary",
+        "return_value":"scalar"
     }
 
 }

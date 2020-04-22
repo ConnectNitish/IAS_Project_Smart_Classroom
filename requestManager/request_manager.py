@@ -34,6 +34,7 @@ deployment_ip_port = None
 app.deployment_file_location = 'deployment/to_deploy_folder'
 repository_URL = "http://"+sys.argv[1]
 
+scheduler_template_file = os.getcwd() + "/Algorithm.scheduler_config.json"
 @app.route('/')
 def landingPage():
     return render_template('index.html')
@@ -44,7 +45,12 @@ def prepare_and_send_log_message(topic_name,key,value,kafka_IP_plus_port):
 @app.route('/Live_sensor_data')
 def live_sensor_data():
     # print(os.getcwd())
-    data =  getData()
+    all_sensor_info = requests.get(repository_URL+"/get_all_sensor_info").content
+    all_sensor_info = json.loads(all_sensor_info.decode('utf-8'))
+
+    all_sensor_config = requests.get(repository_URL+"/get_all_sensor_config").content
+    all_sensor_config = json.loads(all_sensor_config.decode('utf-8'))
+    data = getData(all_sensor_info,all_sensor_config)
     return render_template('showSensorData.html',data = data)
 
 @app.route('/Deployment_Interface')
@@ -139,7 +145,7 @@ def invoke_scheduler():
     datatosend = {}
     datatosend['appName'] = appn
 
-    url_schedule_service = "http://127.0.0.1:9942/ScheduleService"
+    url_schedule_service = "http://0.0.0.0:9942/ScheduleService"
 
     lcl_scheduler_service_ip_port = get_ip_port("Scheduling_Service")
 
@@ -156,31 +162,11 @@ def invoke_scheduler():
     
     return render_template('Scheduler_Invocation_Success.html')
 
-
-device_file_name = os.getcwd() + "/Location_Device_Information.json"
-use_case_mapping = os.getcwd() + "/Use_Case_Mapping.json"
-scheduler_template_file = os.getcwd() + "/Algorithm.scheduler_config.json"
-
-repository_folder_location = os.getcwd() + "/Repository/Scheduler_Config_file"
-
-def get_device_info_for_room(device_file_name):
-    with open(device_file_name, 'r') as fp:
-        device_file_name = json.load(fp)
-    # device_file_name = json.dumps(device_file_name)
-    return device_file_name
-
 @app.route('/Class_Room_Information',methods=['GET','POST'])
 def get_class_room_information():
 
-    if __debug__:
-        print(" Location File Information ")
-        print(device_file_name)
-
-    lcl_entire_data = get_device_info_for_room(device_file_name)
-
-    if __debug__:
-        print( " Room Data ")
-        print(lcl_entire_data)
+    lcl_entire_data = requests.get(repository_URL+"/get_location_info").content
+    lcl_entire_data = json.loads(lcl_entire_data.decode('utf-8'))
 
     response  = {}
 
@@ -191,23 +177,6 @@ def get_class_room_information():
         for key_1,value_1 in lcl_entire_data[key].items():
 
             if key_1 in "Temperature" or key_1 in "Access":
-
-                print("------------------")
-                print(key,key_1,value_1['status'])
-
-                if __debug__:
-                #     print(" Nested Room Item ")
-                #     print(lcl_entire_data[key][key_1])
-                #     print(lcl_entire_data[key][key_1].keys())
-                #     print(lcl_entire_data[key][key_1]['status'])
-                    print(type(lcl_entire_data[key][key_1]['status']))
-
-                # lcl_temp_dict = eval(lcl_entire_data[key][key_1])
-
-                # if __debug__:
-                #     print(" Nested Room Item Processing Into Dict ")
-                #     print(lcl_temp_dict)
-                #     print(type(lcl_temp_dict))
 
                 temp_list = []
                 temp_list.append(str(key))
@@ -220,136 +189,48 @@ def get_class_room_information():
 
     response["RoomDetails"] = lst_response
 
-    if __debug__:
-        print(" Final Room Details response to UI ")
-        print(response)            
-
     return render_template("Class_Room_Information.html",data=response)
 
 @app.route('/Service_Execution',methods=['GET','POST'])
 def get_use_case_entry_point():
-    if __debug__:
-        print(" Location File Information ")
-        print(device_file_name)
 
-    lcl_entire_data = get_device_info_for_room(device_file_name)
-    lcl_use_case_mapping = get_device_info_for_room(use_case_mapping)
-
-    if __debug__:
-        print( " Room Data ")
-        print(lcl_entire_data)
+    lcl_entire_data = requests.get(repository_URL+"/get_location_info").content
+    lcl_entire_data = json.loads(lcl_entire_data.decode('utf-8'))
+    lcl_use_case_mapping = requests.get(repository_URL+"/get_use_case_mapping").content
+    lcl_use_case_mapping = json.loads(lcl_use_case_mapping.decode('utf-8'))
 
     response  = {}
     response["Algorithm_Details"] = lcl_use_case_mapping.items()
     response["RoomDetails"] = lcl_entire_data.keys()
 
-    if __debug__:
-        print(" Entire Details ")
-        print(response)
-
     return render_template('Service_Execution.html',data=response)
-
-
-def save_data(device_file_name,data):
-    with open(device_file_name, 'w') as fp:
-        json.dump(data, fp, indent=4, sort_keys=True)
 
 @app.route('/Service_Execution_Interface',methods=['GET','POST'])
 def execute_use_case():
     f = request.files['file']
-    f.save(secure_filename(f.filename))
-
-    if __debug__:
-        print(" File Name ")
-        print(f.filename,"")
-        print("")
-
+    file_path = os.getcwd() + "/requestManager/" + f.filename
+    f.save(file_path)
     
-    '''lcl_algo_key = "algorithm_details"
-    lcl_algo_name = "algorithm_details"
-    lcl_location_key = "Room_Location"
-    lcl_location_name = ""
+    print(" File Name ",file_path)
 
-    lcl_algo_key_value = request.form.get(lcl_algo_key)
-    lcl_location_key_value = request.form.get(lcl_location_key)
-
-    if __debug__:
-        print(" Output from User Interface ")
-        print(lcl_algo_key_value)
-        print(lcl_location_key_value)
-
-    '''
-
-    # if lcl_location_key_value==None or lcl_algo_key_value==None:
-    #     return get_use_case_entry_point()
-
-    '''
-        Pick the Template from the Algorithms 
-        update as per need and save 
-
-    '''
-    lcl_template_for_scheuduler = get_device_info_for_room(f.filename)
-
-    # lcl_string_value_param = None
-    # lcl_string_value_file_name = None
-
-    if __debug__:
-        print(" Printing File Content ")
-        print(lcl_template_for_scheuduler.keys())
-        print(lcl_template_for_scheuduler["function"][0])
-
-    lcl_algorithm_file_name = lcl_template_for_scheuduler["function"][0]["file_name"]
-
-    if lcl_algorithm_file_name == "Automated_AC_Service.py":
-        # lcl_string_value_param = lcl_location_key_value + " " + "temperature"
-        lcl_string_value_file_name = "Automated_AC_Service"
-    elif lcl_algorithm_file_name == "Illegal_Access_Detection.py":
-        # lcl_string_value_param = lcl_location_key_value + " " + "binary_door_step"
-        lcl_string_value_file_name = "Illegal_Access_Detection"
-    else:
-        return render_template('Service_Execution.html')
-
-
-          
-    # lcl_template_for_scheuduler["function"][0]["file_name"] = lcl_string_value_file_name
-    # lcl_template_for_scheuduler["function"][0]["parameters"] = lcl_string_value_param
-
-    lcl_new_file_name = lcl_string_value_file_name +".scheduler_config.json"
-
-    lcl_saving_location = repository_folder_location + "/" + lcl_new_file_name
+    data = load_data(file_path)
     
-    if __debug__:
-        print(" File Path Location ")
-        print(lcl_saving_location)
+    deployer_ip,deployer_port = get_ip_and_port(deployment_ip_port)
+    deployer_response = requests.post("http://{}:{}/deploy_algo".format(deployer_ip,deployer_port),json=data)
+    deployer_response = json.loads(deployer_response.text)
 
-    print("lcl_saving_location------------------------------->")
-    print("--------------------------------------")
-    print(lcl_saving_location)
-    os.rename(f.filename, lcl_saving_location)
-    # save_data(lcl_saving_location,lcl_template_for_scheuduler)
-    time.sleep(5)
-
-    # Call to Scheduler For Invocation 
-    lcl_scheduler_service_ip_port = get_ip_port("Scheduling_Service")
-
-    if __debug__:
-        print(" lcl_scheduler_service_ip_port ")
-        print(lcl_scheduler_service_ip_port,"")
-
-    datatosend = {}
-    datatosend['appName'] = lcl_string_value_file_name
-
-    lcl_scheduler_service_ip_port = get_ip_port("Scheduling_Service")
-    url_schedule_service = "http://"+lcl_scheduler_service_ip_port+"/ScheduleService"
-
-    if __debug__:
-        print(" Final Scheduler Service URL  ",url_schedule_service,"")
-
-    r=requests.post(url=url_schedule_service,json=datatosend)
-    print(" response from Scheduler ",r," ")
-    
+    if deployer_response["status"] == "failure":
+        return render_template('Scheduler_Invocation_Failure.html')
 
     return render_template('Scheduler_Invocation_Success.html')
+def save_data(filename,data):
+    with open(filename, 'w') as fp:
+        json.dump(data, fp, indent=4, sort_keys=True)
+
+def load_data(filename):
+    with open(filename, 'r') as fp:
+        data = json.load(fp)
+    return data
 
 def get_ip_port(module_name):
     custom_URL = repository_URL+"/get_running_ip/"+module_name

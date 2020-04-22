@@ -1,0 +1,6 @@
+FROM python_base
+
+WORKDIR /algo_base
+COPY . .
+
+ENTRYPOINT python3 app.py
