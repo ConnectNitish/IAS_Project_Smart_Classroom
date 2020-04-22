@@ -176,7 +176,7 @@ def deploy_algorithm(algo_name):
 
         os.system("mv {}.tar {}{}.tar".format(module_name,docker_filepath_prefix,module_name))
         os.system("sudo docker load < {}{}.tar".format(docker_filepath_prefix,module_name))
-        os.system("sudo docker run -p {}:{} -d --net=dockernet -v /home/prakashjha/semester4/ias/pr/IAS_Project_Smart_Classroom/Algorithm_Docker:/algo_base {} > output.txt".format(module_port,algo_base_port,module_name))
+        os.system("sudo docker run -p {}:{} -d --net=dockernet -v /media/n/Garbage/sem4/IAS/Project/my/nitish/n-code/IAS_Project_Smart_Classroom_docker_setup_nitish/Algorithm_Docker:/algo_base {} > output.txt".format(module_port,algo_base_port,module_name))
         
         container_id = ""
 
@@ -267,26 +267,30 @@ def start_algorithm():
         req["repository_ip_port"] = repository_ip_port
         req["runtime_ip_port"] = runtime_application_ip_port
 
-        response = requests.post('http://{}:{}/execute'.format(container_ip,container_port),json=req)
-        response = json.loads(response.text)
-        process_id = response["process_id"]
+        try:
+            response = requests.post('http://{}:{}/execute'.format(container_ip,container_port),json=req)
+            response = json.loads(response.text)
+            process_id = response["process_id"]
 
-        cont_alg = load_data(container_algorithm_mapping_path)
-        if target_container not in cont_alg:
-            cont_alg[target_container] = {}
+            cont_alg = load_data(container_algorithm_mapping_path)
+            if target_container not in cont_alg:
+                cont_alg[target_container] = {}
 
-        cont_alg[target_container]["algo_list"].append({algo_id:process_id})
-        save_data(container_algorithm_mapping_path,cont_alg)
+            cont_alg[target_container]["algo_list"].append({algo_id:process_id})
+            save_data(container_algorithm_mapping_path,cont_alg)
         
-        runtime_application_ip,runtime_application_port = get_ip_and_port(runtime_application_ip_port)
+            runtime_application_ip,runtime_application_port = get_ip_and_port(runtime_application_ip_port)
 
-        reply["status"] = "success"
-        # reply["s"] = response["s"]
-        reply["process_id"] = process_id
-        reply["container_id"] = target_container
-        reply["algo_id"] = algo_id
-        reply["runtime_ip"] = runtime_application_ip
-        reply["runtime_port"] = runtime_application_port
+            reply["status"] = "success"
+            # reply["s"] = response["s"]
+            reply["process_id"] = process_id
+            reply["container_id"] = target_container
+            reply["algo_id"] = algo_id
+            reply["runtime_ip"] = runtime_application_ip
+            reply["runtime_port"] = runtime_application_port
+        except Exception as e:
+            print("asdaddddddddddddddd")
+            print(e)
 
     return jsonify(reply)
 

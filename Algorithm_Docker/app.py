@@ -58,7 +58,6 @@ def execute():
         reply["status"] = "success"
         reply["process_id"] = process_id
         # reply["s"] = s
-    # reply["process_id"] = "123"
     print(reply)
     return jsonify(reply)
 

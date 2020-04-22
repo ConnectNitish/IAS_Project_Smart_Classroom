@@ -192,8 +192,9 @@ sudo docker rm $(sudo docker ps -aq)
 
 2. Empty JSON in repo 
 
-
-
 sudo docker network create --driver bridge --subnet 192.168.0.1/24 dockernet
+
+
+sudo docker rmi algo_base
 
 
